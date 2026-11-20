@@ -9,7 +9,10 @@
       "artifact_id": 14663444622,
       "package_sha256": "64a45b101f95b4274751ab6fea7a7550ddb700f06dbae1f6eb4cc607d777c795",
       "format": "ELF64 AArch64 static; no PT_INTERP or NEEDED entries",
-      "runtime_validation": "Pending actual consumer execution"
+      "runtime_validation": {
+        "run": 44818115102,
+        "result": "Bazel-selected tool --version passed on native architecture in Ubuntu22.04/glibc2.35 and DebianBookworm/glibc2.36"
+      }
     },
     "linux-amd64.zip": {
       "producer_repository": "tamird/bazel-compile-commands",
@@ -25,7 +28,25 @@
         "executionC++17"
       ],
       "format": "ELF64 x86-64 static; no PT_INTERP or NEEDED entries",
-      "runtime_validation": "Pending actual consumer execution"
+      "runtime_validation": {
+        "run": 44818119087,
+        "result": "Bazel-selected tool --version passed on native architecture in Ubuntu22.04/glibc2.35 and DebianBookworm/glibc2.36"
+      }
+    },
+    "macos-universal.zip": {
+      "producer_repository": "tamird/bazel-compile-commands",
+      "producer_run": 44819279858,
+      "producer_commit": "75354e578bebbcc3675cd90c22b52f205f6ce8d2",
+      "artifact_id": 14670606559,
+      "package_sha256": "273f93222e4d36bbffc87836eb99db5fe0f28323670ae5413d412f8356fd4af1",
+      "binary_sha256": "742b9f8f240f5c5889791084d0b9f62f49e0859efcaa0fd39c5e1c0875074eea",
+      "configuration": [
+        "existinguniversalcopy_zip",
+        "--macos_minimum_os=15.5"
+      ],
+      "minimum_os_both_slices": "15.5",
+      "sdk": "26.5",
+      "runtime_validation": "Version startup passed on macOS26.7.3; no actual15.5runtime claim"
     }
   },
   "cleanup_condition": "Retain task ref while exact consumer qualification depends on these immutable URLs; replace with reviewed compatible supplier release assets before public dependency adoption, then remove task-only refs after all dependent runs finish.",
