@@ -1,11 +1,22 @@
 #include <algorithm>
+#include <cstdio>
 #include <iostream>
 #include <string>
 #include <string_view>
 
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#endif
+
 int
 main(int argc, char** argv)
 {
+#ifdef _WIN32
+  if (_setmode(_fileno(stdout), _O_BINARY) == -1) {
+    return 2;
+  }
+#endif
   // Each block exceeds ordinary pipe capacity. Diagnostics can precede the
   // location (startup) or follow it (shutdown), including on failed commands.
   auto const noise = std::string(2 * 1024 * 1024, 'x');
