@@ -74,12 +74,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
       - name: Bazel cache
-        uses: actions/cache@v6
+        id: windows_cache
+        uses: actions/cache/restore@v6
         with:
           path: |
             ~/.cache/bazel_build_cache
-          key: ${{ runner.os }}-bazel-test-${{ hashFiles('MODULE.bazel') }}
+          key: ${{ runner.os }}-bazel-test-${{ hashFiles('MODULE.bazel') }}-${{ github.run_id }}
           restore-keys: |
+            ${{ runner.os }}-bazel-test-${{ hashFiles('MODULE.bazel') }}-
             ${{ runner.os }}-bazel-test-
       - name: Analyze owning target
         if: ${{ inputs.analysis_only }}
@@ -90,8 +92,25 @@ jobs:
         if: ${{ !inputs.analysis_only }}
         run: >
           bazel test --config=cl --config=ci
-          --disk_cache=~/.cache/bazel_build_cache --test_timeout=30 //bcc:bazel_test
+          --disk_cache=~/.cache/bazel_build_cache --test_timeout=30
+          --ui_event_filters= --test_output=all //bcc:bazel_test
       - name: Cache cleanup
         if: always()
         shell: bash
         run: ./tools/disk-cache-collect-garbage ~/.cache/bazel_build_cache
+      - name: Preserve Bazel products
+        if: always()
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            ~/.cache/bazel_build_cache
+          key: ${{ steps.windows_cache.outputs.cache-primary-key }}
+      - name: Preserve owning test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-owning-test-${{ github.run_id }}
+          path: |
+            bazel-testlogs/bcc/bazel_test/test.log
+            bazel-testlogs/bcc/bazel_test/test.xml
+          if-no-files-found: warn
