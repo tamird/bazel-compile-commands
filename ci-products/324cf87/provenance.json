@@ -1,0 +1,17 @@
+{
+  "purpose": "Temporary exact consumer CI inputs only; not an approved permanent fork dependency or a supplier release.",
+  "source_commit": "324cf87d3065afb993520a4104720ef7c7647b0b",
+  "upstream_pr": "https://github.com/kiron1/bazel-compile-commands/pull/236",
+  "products": {
+    "linux-arm64.zip": {
+      "producer_repository": "kiron1/bazel-compile-commands",
+      "producer_run": 44807549343,
+      "artifact_id": 14663444622,
+      "package_sha256": "64a45b101f95b4274751ab6fea7a7550ddb700f06dbae1f6eb4cc607d777c795",
+      "format": "ELF64 AArch64 static; no PT_INTERP or NEEDED entries",
+      "runtime_validation": "Pending actual consumer execution"
+    }
+  },
+  "cleanup_condition": "Retain task ref while exact consumer qualification depends on these immutable URLs; replace with reviewed compatible supplier release assets before public dependency adoption, then remove task-only refs after all dependent runs finish.",
+  "recheck_condition": "Recheck source provenance, package hashes, ABI and affected actual callers if supplier source or producer configuration changes."
+}
