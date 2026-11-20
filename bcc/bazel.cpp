@@ -3,6 +3,7 @@
 #include "bcc/bazel.hpp"
 
 #include <algorithm>
+#include <cstdio>
 #include <iterator>
 #include <limits>
 #include <sstream>
@@ -31,7 +32,8 @@ bazel_info(std::filesystem::path const& bazel_path,
   args.insert(args.end(), bazel_flags.begin(), bazel_flags.end());
   args.push_back(location);
   boost::process::ipstream outs;
-  boost::process::child bazel_proc(bazel_path, boost::process::args(args), boost::process::std_out > outs);
+  boost::process::child bazel_proc(
+    bazel_path, boost::process::args(args), boost::process::std_out > outs, boost::process::std_err > stderr);
 
   auto line = std::string{};
   std::getline(outs, line);
@@ -106,7 +108,8 @@ bazel::aquery(std::string const& query,
   args.push_back(query);
 
   boost::process::ipstream outs;
-  boost::process::child bazel_proc(bazel_command_, boost::process::args(args), boost::process::std_out > outs);
+  boost::process::child bazel_proc(
+    bazel_command_, boost::process::args(args), boost::process::std_out > outs, boost::process::std_err > stderr);
 
   analysis::ActionGraphContainer agc;
   if (!agc.ParseFromIstream(&outs)) {

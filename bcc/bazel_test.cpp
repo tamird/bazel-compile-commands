@@ -58,4 +58,18 @@ TEST(bazel, verbose_info_failure)
     "bazel-info-after");
 }
 
+TEST(bazel, verbose_aquery)
+{
+  auto const helper = helper_path();
+  ASSERT_TRUE(std::filesystem::exists(helper)) << helper;
+  EXPECT_EXIT(
+    {
+      auto const bazel = bcc::bazel::create(helper, {}, {});
+      auto const result = bazel.aquery("//...", {}, {});
+      std::exit(result.actions_size() == 0 ? 0 : 2);
+    },
+    testing::ExitedWithCode(0),
+    "bazel-aquery-after");
+}
+
 } // namespace
