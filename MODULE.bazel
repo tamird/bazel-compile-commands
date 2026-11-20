@@ -32,8 +32,9 @@ llvm_toolchain.target(arch = "x86_64", os = "linux")
 llvm_toolchain.target(arch = "aarch64", os = "linux")
 llvm_toolchain.target(arch = "x86_64", os = "macos")
 llvm_toolchain.target(arch = "aarch64", os = "macos")
-use_repo(llvm_toolchain, "llvm_toolchains")
-register_toolchains("@llvm_toolchains//:all", dev_dependency = True)
+# CI-only import name for the unchanged workflow argument; LLVM toolchains only.
+use_repo(llvm_toolchain, musl_toolchains_hub = "llvm_toolchains")
+register_toolchains("@musl_toolchains_hub//:all", dev_dependency = True)
 
 apple_cc_configure = use_extension(
     "@build_bazel_apple_support//crosstool:setup.bzl",
@@ -84,5 +85,3 @@ http_archive(
     urls = ["https://github.com/jgm/pandoc/releases/download/3.6/pandoc-3.6-windows-x86_64.zip"],
 )
 
-# CI-only alias for the existing producer workflow input; LLVM toolchains only.
-use_repo(llvm_toolchain, musl_toolchains_hub = "llvm_toolchains")
