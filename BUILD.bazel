@@ -21,13 +21,11 @@ platform(
     ],
 )
 
+# CI-only map the existing workflow's fixed Linux platform slot to the
+# actual public ARM platform. The release source keeps both named platforms.
 platform(
     name = "linux_x86_64",
-    constraint_values = [
-        "@platforms//os:linux",
-        "@platforms//cpu:x86_64",
-        "@llvm//constraints/libc:musl",
-    ],
+    parents = [":linux_aarch64"],
 )
 
 platform(
