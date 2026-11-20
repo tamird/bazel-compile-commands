@@ -17,12 +17,22 @@ on:
         type: boolean
         default: true
 
+      portable_product:
+        description: Existing release product to qualify
+        type: choice
+        options: [none, linux-amd64, macos]
+        default: none
+      product_analysis_only:
+        description: Verify producer actions before building
+        type: boolean
+        default: true
+
 permissions:
   contents: read
 
 jobs:
   test:
-    if: ${{ !inputs.style_only && !inputs.native_windows }}
+    if: ${{ !inputs.style_only && !inputs.native_windows && inputs.portable_product == 'none' }}
     name: Native Linux owning tests
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -56,7 +66,7 @@ jobs:
           if-no-files-found: warn
 
   format_check:
-    if: ${{ !inputs.native_windows || inputs.analysis_only }}
+    if: ${{ (!inputs.native_windows || inputs.analysis_only) && inputs.portable_product == 'none' }}
     name: Canonical style check
     runs-on: ubuntu-latest
     steps:
@@ -75,7 +85,7 @@ jobs:
 
   windows:
     name: Native Windows owning test
-    if: ${{ inputs.native_windows }}
+    if: ${{ inputs.native_windows && inputs.portable_product == 'none' }}
     runs-on: windows-2022
     timeout-minutes: 25
     steps:
@@ -121,4 +131,74 @@ jobs:
           path: |
             bazel-testlogs/tests/self_test/test.log
             bazel-testlogs/tests/self_test/test.xml
+          if-no-files-found: warn
+
+  buildpkg:
+    name: Qualify compatible release product
+    if: ${{ inputs.portable_product != 'none' }}
+    runs-on: ${{ inputs.portable_product == 'macos' && 'macos-latest' || 'ubuntu-24.04' }}
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Bazel cache
+        id: product_cache
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            ~/.cache/bazel_build_cache
+          key: ${{ runner.os }}-bazel-buildpkg-${{ hashFiles('MODULE.bazel') }}-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-bazel-buildpkg-${{ hashFiles('MODULE.bazel') }}-
+            ${{ runner.os }}-bazel-buildpkg-
+            ${{ runner.os }}-bazel-test-
+      - name: Analyze Linux producer
+        if: ${{ inputs.portable_product == 'linux-amd64' && inputs.product_analysis_only }}
+        run: >
+          bazel aquery --config=gnu --config=ci --config=release
+          --platforms=//:linux_x86_64
+          --extra_toolchains=@musl_toolchains_hub//:musl-1_2_3-platform-x86_64-linux-target-x86_64-linux-musl
+          --output=text 'mnemonic("CppCompile", //bcc:bazel-compile-commands-binary)'
+          > producer-actions.txt
+      - name: Analyze macOS producer
+        if: ${{ inputs.portable_product == 'macos' && inputs.product_analysis_only }}
+        run: >
+          bazel aquery --config=gnu --config=ci --config=release
+          --platforms=//:apple-darwin-aarch64 --macos_minimum_os=15.5
+          --output=text 'mnemonic("CppCompile", deps(//bcc:bazel-compile-commands-universal, 1))'
+          > producer-actions.txt
+      - name: Build Linux release product
+        if: ${{ inputs.portable_product == 'linux-amd64' && !inputs.product_analysis_only }}
+        run: >
+          bazel run --config=gnu --config=ci --config=release
+          --disk_cache=~/.cache/bazel_build_cache --platforms=//:linux_x86_64
+          --extra_toolchains=@musl_toolchains_hub//:musl-1_2_3-platform-x86_64-linux-target-x86_64-linux-musl
+          //:copy_zip -- approved-324-linux-amd64.zip
+      - name: Build macOS release product
+        if: ${{ inputs.portable_product == 'macos' && !inputs.product_analysis_only }}
+        run: >
+          bazel run --config=gnu --config=ci --config=release
+          --disk_cache=~/.cache/bazel_build_cache
+          --platforms=//:apple-darwin-aarch64 --macos_minimum_os=15.5
+          //:copy_zip -- approved-324-macos15.5-universal.zip
+      - name: Verify source preserved
+        if: always()
+        run: |
+          git diff --exit-code --quiet
+          git diff --cached --exit-code --quiet
+      - name: Preserve Bazel products
+        if: always()
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            ~/.cache/bazel_build_cache
+          key: ${{ steps.product_cache.outputs.cache-primary-key }}
+      - name: Preserve actual producer results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: compatible-${{ inputs.portable_product }}-${{ github.run_id }}
+          path: |
+            producer-actions.txt
+            approved-324-*.zip
           if-no-files-found: warn

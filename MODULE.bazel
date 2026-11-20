@@ -71,3 +71,7 @@ http_archive(
     strip_prefix = "pandoc-3.6",
     urls = ["https://github.com/jgm/pandoc/releases/download/3.6/pandoc-3.6-windows-x86_64.zip"],
 )
+
+# CI-only mapping for the dependency's already-registered musl toolchains.
+portable_musl = use_extension("@toolchains_musl//:toolchains_musl.bzl", "toolchains_musl", dev_dependency = True)
+use_repo(portable_musl, "musl_toolchains_hub")
