@@ -20,11 +20,11 @@ helper_path()
   if (!runfiles) {
     throw std::runtime_error(error);
   }
-  auto path = runfiles->Rlocation("bazel-compile-commands/bcc/bazel_info_test_helper");
+  auto path = std::string("bazel-compile-commands/bcc/bazel_info_test_helper");
 #ifdef _WIN32
   path += ".exe";
 #endif
-  return path;
+  return runfiles->Rlocation(path);
 }
 
 TEST(bazel, verbose_info)
