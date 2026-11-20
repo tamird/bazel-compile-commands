@@ -189,3 +189,21 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+
+cc_binary(
+    name = "bazel_info_test_helper",
+    testonly = True,
+    srcs = ["bazel_info_test_helper.cpp"],
+)
+
+cc_test(
+    name = "bazel_test",
+    size = "small",
+    srcs = ["bazel_test.cpp"],
+    data = [":bazel_info_test_helper"],
+    deps = [
+        ":bazel",
+        "@bazel_tools//tools/cpp/runfiles",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
