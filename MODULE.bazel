@@ -23,6 +23,9 @@ bazel_dep(name = "rules_shell", version = "0.8.0")
 bazel_dep(name = "toolchains_musl", version = "0.1.27.bcr.1", dev_dependency = True)
 bazel_dep(name = "googletest", version = "1.18.0.bcr.1", dev_dependency = True, repo_name = "com_google_googletest")
 
+musl = use_extension("@toolchains_musl//:toolchains_musl.bzl", "toolchains_musl", dev_dependency = True)
+use_repo(musl, "musl_toolchains_hub")
+
 apple_cc_configure = use_extension(
     "@build_bazel_apple_support//crosstool:setup.bzl",
     "apple_cc_configure_extension",

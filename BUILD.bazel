@@ -98,10 +98,20 @@ pkg_files(
     }),
 )
 
+pkg_files(
+    name = "license_files",
+    srcs = ["LICENSE.txt"] + select({
+        "@platforms//os:linux": ["MUSL-COPYRIGHT"],
+        "//conditions:default": [],
+    }),
+    prefix = "share/doc/bazel-compile-commands",
+)
+
 pkg_filegroup(
     name = "usr_files",
     srcs = [
         ":bin_files",
+        ":license_files",
         ":man_files",
     ],
     prefix = select({

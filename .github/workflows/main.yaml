@@ -86,7 +86,7 @@ jobs:
             type: deb
           - build: linux-amd64
             os: ubuntu-24.04
-            config: gnu
+            config: linux-release
             platform: "//:linux_x86_64"
             suffix: linux_amd64
             type: zip
@@ -99,7 +99,7 @@ jobs:
           - build: macos-universal
             os: macos-latest
             platform: "//:apple-darwin-aarch64"
-            config: gnu
+            config: macos-release
             suffix: macos_universal
             type: zip
           - build: windows-amd64
