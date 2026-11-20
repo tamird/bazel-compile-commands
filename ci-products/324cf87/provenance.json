@@ -10,6 +10,22 @@
       "package_sha256": "64a45b101f95b4274751ab6fea7a7550ddb700f06dbae1f6eb4cc607d777c795",
       "format": "ELF64 AArch64 static; no PT_INTERP or NEEDED entries",
       "runtime_validation": "Pending actual consumer execution"
+    },
+    "linux-amd64.zip": {
+      "producer_repository": "tamird/bazel-compile-commands",
+      "producer_run": 44815338938,
+      "producer_commit": "75354e578bebbcc3675cd90c22b52f205f6ce8d2",
+      "artifact_id": 14669656347,
+      "package_sha256": "07fa880b5f9ac30f44df32b4fb2d6d9ce1e20bb25ab3ad2b3b37a9b5d532b908",
+      "binary_sha256": "cb85cf64616f26d903a9a78b1b463e318edf06322dc8a7144e65652bac991823",
+      "configuration": [
+        "existingcopy_zip",
+        "declaredmusltoolchainpriority",
+        "targetC++17",
+        "executionC++17"
+      ],
+      "format": "ELF64 x86-64 static; no PT_INTERP or NEEDED entries",
+      "runtime_validation": "Pending actual consumer execution"
     }
   },
   "cleanup_condition": "Retain task ref while exact consumer qualification depends on these immutable URLs; replace with reviewed compatible supplier release assets before public dependency adoption, then remove task-only refs after all dependent runs finish.",
