@@ -1,0 +1,47 @@
+{
+  "purpose": "Temporary exact LLVM producer/caller qualification only; not a supplier release or permanent fork dependency. Producer proposal is unpublished and pending human review.",
+  "binary_source": "324cf87d3065afb993520a4104720ef7c7647b0b",
+  "producer_proposal": "44774d5c6b106d09460c5bb85ac64506a712c35b",
+  "toolchain_module": "llvm0.8.26",
+  "llvm_version": "23.1.2",
+  "musl_version": "1.2.6",
+  "products": {
+    "linux-amd64.zip": {
+      "run": 44832648643,
+      "source": "121d1727e01aee15fd200dd14c44e059ca08fd66",
+      "compiler": "hermetic-llvm0.8.26/LLVM23.1.2",
+      "package_sha256": "cc0bfae201106808544e210a4d2623ee61d4c1ca5bdb3108b157a72d95c83bcb",
+      "binary_source": "324cf87d3065afb993520a4104720ef7c7647b0b",
+      "producer_proposal": "44774d5c6b106d09460c5bb85ac64506a712c35b",
+      "binaries": {
+        "bazel-compile-commands": {
+          "sha256": "2dab35ea9699ba37323003261bf62e1b71d99783c5f3f9cb3d5ce8b635c727fc",
+          "bytes": 3838552,
+          "ELF_type": 2,
+          "machine": 62,
+          "PT_INTERP": false,
+          "DT_NEEDED": []
+        },
+        "bazel-clangd-wrapper": {
+          "sha256": "eaf4342aca6e5391c46fd8c439b8d5610e034a59d077e5769449caa0e091c61f",
+          "bytes": 1325016,
+          "ELF_type": 2,
+          "machine": 62,
+          "PT_INTERP": false,
+          "DT_NEEDED": []
+        }
+      },
+      "notices": "all six notices match exact proposal source"
+    }
+  },
+  "cleanup_condition": "Replace with reviewed compatible supplier release including PR236 and accepted LLVM producer change before public dependency adoption, then remove task refs after dependent runs finish.",
+  "recheck_condition": "Qualify changed source/toolchain/configuration or binary payload; original GNU/musl products do not validate these LLVM binaries.",
+  "notice_hashes": {
+    "LICENSE.txt": "19399a082e1dc408abadc37af48ea35a378faa855187698c75983cfea76bfe7a",
+    "MUSL-COPYRIGHT": "b870108ec5e7790e9f9919064f1b9421d62d5f9b0e6c230c6adf7ea2da62e97b",
+    "LLVM-compiler-rt-LICENSE.txt": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d",
+    "LLVM-libcxx-LICENSE.txt": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b",
+    "LLVM-libcxxabi-LICENSE.txt": "e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c",
+    "LLVM-libunwind-LICENSE.txt": "b5efebcaca80879234098e52d1725e6d9eb8fb96a19fce625d39184b705f7b6d"
+  }
+}
