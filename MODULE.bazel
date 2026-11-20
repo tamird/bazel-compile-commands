@@ -13,8 +13,7 @@ bazel_dep(name = "boost.program_options", version = "1.87.0")
 bazel_dep(name = "googleapis", version = "0.0.0-20260825-d10ac924")
 bazel_dep(name = "platforms", version = "1.1.0")
 bazel_dep(name = "protobuf", version = "36.1.bcr.1", repo_name = "com_google_protobuf")
-bazel_dep(name = "rules_apple", version = "4.5.3", repo_name = "build_bazel_rules_apple")
-bazel_dep(name = "rules_cc", version = "0.2.22")
+bazel_dep(name = "rules_cc", version = "0.2.25")
 bazel_dep(name = "rules_java", version = "9.9.0")
 bazel_dep(name = "rules_pkg", version = "1.3.0")
 bazel_dep(name = "rules_python", version = "2.3.3")
@@ -32,15 +31,9 @@ llvm_toolchain.target(arch = "x86_64", os = "linux")
 llvm_toolchain.target(arch = "aarch64", os = "linux")
 llvm_toolchain.target(arch = "x86_64", os = "macos")
 llvm_toolchain.target(arch = "aarch64", os = "macos")
-# CI-only import name for the unchanged workflow argument; LLVM toolchains only.
+# CI-only name for unchanged workflow argument; imports LLVM toolchains only.
 use_repo(llvm_toolchain, musl_toolchains_hub = "llvm_toolchains")
 register_toolchains("@musl_toolchains_hub//:all", dev_dependency = True)
-
-apple_cc_configure = use_extension(
-    "@build_bazel_apple_support//crosstool:setup.bzl",
-    "apple_cc_configure_extension",
-)
-use_repo(apple_cc_configure, "local_config_apple_cc")
 
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
@@ -84,4 +77,3 @@ http_archive(
     strip_prefix = "pandoc-3.6",
     urls = ["https://github.com/jgm/pandoc/releases/download/3.6/pandoc-3.6-windows-x86_64.zip"],
 )
-

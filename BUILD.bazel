@@ -105,6 +105,14 @@ pkg_files(
     srcs = ["LICENSE.txt"] + select({
         "@platforms//os:linux": ["MUSL-COPYRIGHT"],
         "//conditions:default": [],
+    }) + select({
+        "@platforms//os:windows": [],
+        "//conditions:default": [
+            "licenses/LLVM-compiler-rt-LICENSE.txt",
+            "licenses/LLVM-libcxx-LICENSE.txt",
+            "licenses/LLVM-libcxxabi-LICENSE.txt",
+            "licenses/LLVM-libunwind-LICENSE.txt",
+        ],
     }),
     prefix = "share/doc/bazel-compile-commands",
 )
