@@ -3,12 +3,18 @@ name: Check Bazel info pipe handling
 
 on:
   workflow_dispatch:
+    inputs:
+      style_only:
+        description: Run only the canonical formatter
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   test:
+    if: ${{ !inputs.style_only }}
     name: Native Linux owning tests
     runs-on: ubuntu-24.04
     timeout-minutes: 25
