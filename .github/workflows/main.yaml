@@ -48,6 +48,7 @@ jobs:
         run: ./tools/disk-cache-collect-garbage ~/.cache/bazel_build_cache
 
   format_check:
+    if: ${{ !inputs.native_windows || inputs.analysis_only }}
     name: Canonical style check
     runs-on: ubuntu-latest
     steps:
