@@ -7,19 +7,31 @@
       "producer_repository": "kiron1/bazel-compile-commands",
       "producer_run": 44807549343,
       "artifact_id": 14663444622,
-      "package_sha256": "64a45b101f95b4274751ab6fea7a7550ddb700f06dbae1f6eb4cc607d777c795",
+      "package_sha256": "0efaa5348b33bd15212d2ca43e634325f13a40408528c5b6decd080f2d3a37ae",
       "format": "ELF64 AArch64 static; no PT_INTERP or NEEDED entries",
       "runtime_validation": {
         "run": 44818115102,
         "result": "Bazel-selected tool --version passed on native architecture in Ubuntu22.04/glibc2.35 and DebianBookworm/glibc2.36"
-      }
+      },
+      "original_qualified_package_sha256": "64a45b101f95b4274751ab6fea7a7550ddb700f06dbae1f6eb4cc607d777c795",
+      "notice_package_run": 44826570159,
+      "notice_package_repository": "tamird/bazel-compile-commands",
+      "packaged_binary_sha256": {
+        "usr/bin/bazel-compile-commands": "601e4a39f8783ed439ef0dd78bce39f20ea61be0b3ce2f9e078d39889ac1138a",
+        "usr/bin/bazel-clangd-wrapper": "9935c7a9ff4cf27aba4f35f2e86bea6e76b4174641afb3f5183821e009393fe5"
+      },
+      "binary_payload_unchanged": true,
+      "notice_paths": [
+        "usr/share/doc/bazel-compile-commands/LICENSE.txt",
+        "usr/share/doc/bazel-compile-commands/MUSL-COPYRIGHT"
+      ]
     },
     "linux-amd64.zip": {
       "producer_repository": "tamird/bazel-compile-commands",
       "producer_run": 44815338938,
       "producer_commit": "75354e578bebbcc3675cd90c22b52f205f6ce8d2",
       "artifact_id": 14669656347,
-      "package_sha256": "07fa880b5f9ac30f44df32b4fb2d6d9ce1e20bb25ab3ad2b3b37a9b5d532b908",
+      "package_sha256": "02f1106827c938624e3666c4d241a05a2d911b425a0ac84328c7adc4cf32a255",
       "binary_sha256": "cb85cf64616f26d903a9a78b1b463e318edf06322dc8a7144e65652bac991823",
       "configuration": [
         "existingcopy_zip",
@@ -31,14 +43,26 @@
       "runtime_validation": {
         "run": 44818119087,
         "result": "Bazel-selected tool --version passed on native architecture in Ubuntu22.04/glibc2.35 and DebianBookworm/glibc2.36"
-      }
+      },
+      "original_qualified_package_sha256": "07fa880b5f9ac30f44df32b4fb2d6d9ce1e20bb25ab3ad2b3b37a9b5d532b908",
+      "notice_package_run": 44823234525,
+      "notice_package_repository": "tamird/bazel-compile-commands",
+      "packaged_binary_sha256": {
+        "usr/bin/bazel-compile-commands": "cb85cf64616f26d903a9a78b1b463e318edf06322dc8a7144e65652bac991823",
+        "usr/bin/bazel-clangd-wrapper": "8f552ba9ad407b3da2f6fddaca66cf6a1ed302bab0d528ce05e67194cfa808a6"
+      },
+      "binary_payload_unchanged": true,
+      "notice_paths": [
+        "usr/share/doc/bazel-compile-commands/LICENSE.txt",
+        "usr/share/doc/bazel-compile-commands/MUSL-COPYRIGHT"
+      ]
     },
     "macos-universal.zip": {
       "producer_repository": "tamird/bazel-compile-commands",
       "producer_run": 44819279858,
       "producer_commit": "75354e578bebbcc3675cd90c22b52f205f6ce8d2",
       "artifact_id": 14670606559,
-      "package_sha256": "273f93222e4d36bbffc87836eb99db5fe0f28323670ae5413d412f8356fd4af1",
+      "package_sha256": "33ecfcc775554e042af5024e49ab92287ec9bfd214f9a879e3aa87d5e077682e",
       "binary_sha256": "742b9f8f240f5c5889791084d0b9f62f49e0859efcaa0fd39c5e1c0875074eea",
       "configuration": [
         "existinguniversalcopy_zip",
@@ -46,9 +70,42 @@
       ],
       "minimum_os_both_slices": "15.5",
       "sdk": "26.5",
-      "runtime_validation": "Version startup passed on macOS26.7.3; no actual15.5runtime claim"
+      "runtime_validation": "Version startup passed on macOS26.7.3; no actual15.5runtime claim",
+      "original_qualified_package_sha256": "273f93222e4d36bbffc87836eb99db5fe0f28323670ae5413d412f8356fd4af1",
+      "notice_package_run": 44823243830,
+      "notice_package_repository": "tamird/bazel-compile-commands",
+      "packaged_binary_sha256": {
+        "usr/bin/bazel-compile-commands": "742b9f8f240f5c5889791084d0b9f62f49e0859efcaa0fd39c5e1c0875074eea",
+        "usr/bin/bazel-clangd-wrapper": "cc8d44fae2b33db67678703d1163941d37e77fdc8178c0e2fbc4824267ad0548"
+      },
+      "binary_payload_unchanged": true,
+      "notice_paths": [
+        "usr/share/doc/bazel-compile-commands/LICENSE.txt"
+      ]
     }
   },
-  "cleanup_condition": "Retain task ref while exact consumer qualification depends on these immutable URLs; replace with reviewed compatible supplier release assets before public dependency adoption, then remove task-only refs after all dependent runs finish.",
-  "recheck_condition": "Recheck source provenance, package hashes, ABI and affected actual callers if supplier source or producer configuration changes."
+  "cleanup_condition": "Retain task ref while exact consumer qualification depends on immutable URLs. Replace with reviewed compatible supplier release assets including PR236 and portable producer/notice changes before public dependency adoption, then remove task-only refs after dependent runs finish.",
+  "recheck_condition": "Recheck source provenance, package hashes, ABI and affected actual callers if supplier source or producer configuration changes.",
+  "package_metadata_source_commit": "f611b9a07aeb262daf01c0cfdc53b7e9ce4b41b3",
+  "package_metadata_source_status": "Unpublished producer proposal; actual package projections53a74bb (AMD/Mac),18d7be8 (ARM immutable-input repackaging)",
+  "notice_provenance": {
+    "version": "1.2.3",
+    "bytes": 6204,
+    "copyright_sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af",
+    "git_blob": "c1628e9ac84f927fe791124ec172fb61c760bb9b",
+    "release_commit": "7a43f6fea9081bdd53d8a11cef9e9fab0348c53d",
+    "release_commit_author": "Rich Felker <dalias@aerifal.cx>",
+    "release_commit_message": "release 1.2.3",
+    "release_commit_time": "2022-04-07T17:12:40Z",
+    "actual_fetch": "https://api.github.com/repos/ifduyue/musl/contents/COPYRIGHT?ref=v1.2.3",
+    "fetch_classification": "upstream source Git object via unofficial mirror; official cgit/archive unavailable in this environment",
+    "primary_source_url": "https://git.musl-libc.org/cgit/musl/plain/COPYRIGHT?h=v1.2.3",
+    "toolchain_source": "https://github.com/bazel-contrib/musl-toolchain/blob/v0.1.27/build.sh",
+    "toolchain_pins": "MUSL_VERSION=1.2.3; musl-cross-make58e60ab120b4588e4094263709c3f0c3ef5b0a43",
+    "pinned_official_release_archive_sha1": "3b6b673196c2dc96b24c5d6028c5fa922457dd26"
+  },
+  "named_config_analysis": {
+    "linux-release": 44825781885,
+    "macos-release": 44825977342
+  }
 }
