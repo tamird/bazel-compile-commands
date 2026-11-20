@@ -31,7 +31,144 @@
           "DT_NEEDED": []
         }
       },
+      "notices": "all six notices match exact proposal source",
+      "runtime_gate": {
+        "run": 44837186284,
+        "source": "72d6ac4bcd33fc30b0a6101bcb25d18e522d7974",
+        "result": "version startup passed natively on Ubuntu22.04/glibc2.35 and Debian12/glibc2.36"
+      },
+      "caller_gate": {
+        "run": 44838206270,
+        "source": "72d6ac4bcd33fc30b0a6101bcb25d18e522d7974",
+        "result": "377sources analyzed, clang-tidy passed; freshdatabase5595entries/5013uniquefiles",
+        "scope": "Unchanged public scripts, private RBE/toolchain/configuration profile; not whole minimalpublicconfiguration proof"
+      }
+    },
+    "linux-arm64.zip": {
+      "run": 44834886561,
+      "source": "88136e848f4147e941cab23ddd9e1aa15f448b07",
+      "compiler": "hermetic-llvm0.8.26/LLVM23.1.2",
+      "package_sha256": "1c598cf13d1509186a1a1476c3862e814e1d17778e326867564350920480abd5",
+      "binary_source": "324cf87d3065afb993520a4104720ef7c7647b0b",
+      "producer_proposal": "44774d5c6b106d09460c5bb85ac64506a712c35b",
+      "binaries": {
+        "bazel-compile-commands": {
+          "sha256": "9d54f5f4e348f02cee1c839a6b7aa2301c5c2e7e7eef88e84f4c96bb8659bf25",
+          "bytes": 4120656,
+          "ELF_type": 2,
+          "machine": 183,
+          "PT_INTERP": false,
+          "DT_NEEDED": []
+        },
+        "bazel-clangd-wrapper": {
+          "sha256": "92d7fb913813030c41899744d4c39168c13673214bc8f8872129fe2d265fa5f5",
+          "bytes": 1426072,
+          "ELF_type": 2,
+          "machine": 183,
+          "PT_INTERP": false,
+          "DT_NEEDED": []
+        }
+      },
       "notices": "all six notices match exact proposal source"
+    },
+    "macos-universal.zip": {
+      "run": 44832647347,
+      "source": "121d1727e01aee15fd200dd14c44e059ca08fd66",
+      "package_sha256": "cb3ad2b60ffa672a8d94b6ecb0ac5a354ac214e80fc3d0f92726b698f4bb2c6d",
+      "producer_proposal": "44774d5c6b106d09460c5bb85ac64506a712c35b",
+      "binary_source": "324cf87d3065afb993520a4104720ef7c7647b0b",
+      "compiler": "hermetic-llvm0.8.26/LLVM23.1.2",
+      "declared_SDK_source": "MacOSX26.5.sdk from pinned LLVM module",
+      "binaries": {
+        "bazel-compile-commands": {
+          "sha256": "2fadc4532e7773ace8eca82ee7a2d4e6291dfccefae88ace728805f67cc7d1b1",
+          "bytes": 5869760,
+          "slices": [
+            {
+              "cpu": 16777223,
+              "minimum_os": "15.5",
+              "LC_BUILD_VERSION_SDK": "15.5",
+              "dylibs": [
+                "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+                "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+                "/usr/lib/libc++.1.dylib",
+                "/usr/lib/libSystem.B.dylib"
+              ]
+            },
+            {
+              "cpu": 16777228,
+              "minimum_os": "15.5",
+              "LC_BUILD_VERSION_SDK": "15.5",
+              "dylibs": [
+                "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+                "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+                "/usr/lib/libc++.1.dylib",
+                "/usr/lib/libSystem.B.dylib"
+              ]
+            }
+          ]
+        },
+        "bazel-clangd-wrapper": {
+          "sha256": "bfc5601f10fe7d585ff8d937241525c89085984205be29758cc4d691ed606995",
+          "bytes": 710880,
+          "slices": [
+            {
+              "cpu": 16777223,
+              "minimum_os": "15.5",
+              "LC_BUILD_VERSION_SDK": "15.5",
+              "dylibs": [
+                "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+                "/usr/lib/libc++.1.dylib",
+                "/usr/lib/libSystem.B.dylib"
+              ]
+            },
+            {
+              "cpu": 16777228,
+              "minimum_os": "15.5",
+              "LC_BUILD_VERSION_SDK": "15.5",
+              "dylibs": [
+                "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+                "/usr/lib/libc++.1.dylib",
+                "/usr/lib/libSystem.B.dylib"
+              ]
+            }
+          ]
+        }
+      },
+      "runtime_probe": {
+        "host": "26.7.3",
+        "architecture": "arm64",
+        "both_program_versions": "0.22.4",
+        "status": "success",
+        "limit": "No actual macOS15.5 or non-native slice runtime claim"
+      },
+      "ABI_comparison": {
+        "control": "native Apple compiler product44819279858, target15.5",
+        "new_generator_arm64_undefined_symbols": [
+          "__ZdaPvm",
+          "__ZdlPvm"
+        ],
+        "classification": "C++14 sized delete/delete[], supported from macOS10.12 per selected LLVM23.1.2 Darwin.cpp sizedDeallocMinVersion",
+        "primary_source": "https://github.com/llvm/llvm-project/blob/llvmorg-23.1.2/clang/lib/Driver/ToolChains/Darwin.cpp",
+        "scope": "bounded extra-import comparison; no complete OS15.5 runtime claim",
+        "all_binary_slice_deltas": {
+          "bazel-compile-commands/arm64": [
+            "__ZdaPvm",
+            "__ZdlPvm"
+          ],
+          "bazel-compile-commands/x86_64": [
+            "__ZdaPvm",
+            "__ZdlPvm"
+          ],
+          "bazel-clangd-wrapper/arm64": [
+            "__ZdlPvm"
+          ],
+          "bazel-clangd-wrapper/x86_64": [
+            "__ZdlPvm"
+          ]
+        }
+      },
+      "notices": "project and four LLVM notices match exact source; Linux-only musl notice absent"
     }
   },
   "cleanup_condition": "Replace with reviewed compatible supplier release including PR236 and accepted LLVM producer change before public dependency adoption, then remove task refs after dependent runs finish.",
@@ -43,5 +180,16 @@
     "LLVM-libcxx-LICENSE.txt": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b",
     "LLVM-libcxxabi-LICENSE.txt": "e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c",
     "LLVM-libunwind-LICENSE.txt": "b5efebcaca80879234098e52d1725e6d9eb8fb96a19fce625d39184b705f7b6d"
+  },
+  "owning_tests": {
+    "linux": {
+      "run": 44834589893,
+      "result": "Executed3outof3 existing Bazel test targets passed; normal registered LLVM without CLItoolchain override"
+    },
+    "windows": {
+      "run": 44832909319,
+      "result": "nativeMSVC owning check passed; XML1case0failures"
+    },
+    "style": 44834589893
   }
 }
