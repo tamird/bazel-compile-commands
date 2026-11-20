@@ -40,5 +40,5 @@ test --test_env=HOME
 try-import %workspace%/user.bazelrc
 
 # CI-only expose actual compiler selection and RC configuration.
-build --ui_event_filters=
+build --ui_event_filters=+info,+error,+warning
 build --announce_rc
