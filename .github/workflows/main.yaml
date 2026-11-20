@@ -157,7 +157,7 @@ jobs:
         run: >
           bazel aquery --config=gnu --config=ci --config=release
           --platforms=//:linux_${{ inputs.portable_product == 'linux-arm64' && 'aarch64' || 'x86_64' }}
-          --output=text 'inputs(".*upb_generator/minitable/names.cc", deps(//:copy_zip))'
+          --output=text 'inputs(".*(bcc/main.cpp|upb_generator/minitable/names.cc)", deps(//:copy_zip))'
           > producer-actions.txt
       - name: Analyze macOS producer
         if: ${{ inputs.portable_product == 'macos' && inputs.product_analysis_only }}
