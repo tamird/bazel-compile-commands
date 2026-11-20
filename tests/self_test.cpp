@@ -64,11 +64,11 @@ TEST(self_test, run)
   std::unique_ptr<Runfiles> runfiles(Runfiles::CreateForTest(&error));
   ASSERT_THAT(runfiles, NotNull()) << error;
 
-  auto const bcc_path = runfiles->Rlocation("bazel-compile-commands/bcc/bazel-compile-commands") + exe_suffix();
+  auto const bcc_path = runfiles->Rlocation("bazel-compile-commands/bcc/bazel-compile-commands" + exe_suffix());
   ASSERT_THAT(bcc_path, Not(IsEmpty())) << bcc_path;
   ASSERT_THAT(std::filesystem::exists(bcc_path), IsTrue()) << bcc_path;
 
-  auto const bazel_path = runfiles->Rlocation("bazel-compile-commands/tests/bazel-mock") + exe_suffix();
+  auto const bazel_path = runfiles->Rlocation("bazel-compile-commands/tests/bazel-mock" + exe_suffix());
   ASSERT_THAT(bazel_path, Not(IsEmpty())) << bazel_path;
   ASSERT_THAT(std::filesystem::exists(bazel_path), IsTrue()) << bazel_path;
 
