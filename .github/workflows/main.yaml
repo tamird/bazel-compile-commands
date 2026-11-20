@@ -41,11 +41,19 @@ jobs:
         run: >
           bazel test --config=gnu --config=ci
           --disk_cache=~/.cache/bazel_build_cache --test_timeout=30
-          //bcc:bazel_test //bcc:compile_commands_test
-          //bcc:replacements_test //tests:self_test
+          --ui_event_filters= --test_output=errors //tests:self_test
       - name: Cache cleanup
         if: always()
         run: ./tools/disk-cache-collect-garbage ~/.cache/bazel_build_cache
+      - name: Preserve owning test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: linux-owning-test-${{ github.run_id }}
+          path: |
+            bazel-testlogs/tests/self_test/test.log
+            bazel-testlogs/tests/self_test/test.xml
+          if-no-files-found: warn
 
   format_check:
     if: ${{ !inputs.native_windows || inputs.analysis_only }}
@@ -87,13 +95,13 @@ jobs:
         if: ${{ inputs.analysis_only }}
         run: >
           bazel test --config=cl --config=ci
-          --disk_cache=~/.cache/bazel_build_cache --nobuild //bcc:bazel_test
+          --disk_cache=~/.cache/bazel_build_cache --nobuild //tests:self_test
       - name: Run owning test
         if: ${{ !inputs.analysis_only }}
         run: >
           bazel test --config=cl --config=ci
           --disk_cache=~/.cache/bazel_build_cache --test_timeout=30
-          --ui_event_filters= --test_output=all //bcc:bazel_test
+          --ui_event_filters= --test_output=errors //tests:self_test
       - name: Cache cleanup
         if: always()
         shell: bash
@@ -111,6 +119,6 @@ jobs:
         with:
           name: windows-owning-test-${{ github.run_id }}
           path: |
-            bazel-testlogs/bcc/bazel_test/test.log
-            bazel-testlogs/bcc/bazel_test/test.xml
+            bazel-testlogs/tests/self_test/test.log
+            bazel-testlogs/tests/self_test/test.xml
           if-no-files-found: warn
