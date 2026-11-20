@@ -39,7 +39,7 @@ test --test_env=HOME
 # allow workspace specific user settings
 try-import %workspace%/user.bazelrc
 
-# CI-only expose actual compiler resolution.
+# CI-only compiler-selection diagnostics.
 build --ui_event_filters=+info,+error,+warning
 build --announce_rc
 build --toolchain_resolution_debug=.*tools/cpp:toolchain_type

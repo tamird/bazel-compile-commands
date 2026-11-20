@@ -20,7 +20,7 @@ on:
       portable_product:
         description: Existing release product to qualify
         type: choice
-        options: [none, linux-amd64, macos]
+        options: [none, linux-amd64, linux-arm64, macos]
         default: none
       product_analysis_only:
         description: Verify producer actions before building
@@ -51,7 +51,7 @@ jobs:
         run: >
           bazel test --config=gnu --config=ci
           --disk_cache=~/.cache/bazel_build_cache --test_timeout=30
-          --ui_event_filters= --test_output=errors //tests:self_test
+          --ui_event_filters=+info,+error,+warning --test_output=errors //bcc:all //tests:self_test
       - name: Cache cleanup
         if: always()
         run: ./tools/disk-cache-collect-garbage ~/.cache/bazel_build_cache
@@ -104,14 +104,14 @@ jobs:
       - name: Analyze owning target
         if: ${{ inputs.analysis_only }}
         run: >
-          bazel test --config=cl --config=ci
+          bazel build --config=cl --config=ci
           --disk_cache=~/.cache/bazel_build_cache --nobuild //tests:self_test
       - name: Run owning test
         if: ${{ !inputs.analysis_only }}
         run: >
           bazel test --config=cl --config=ci
           --disk_cache=~/.cache/bazel_build_cache --test_timeout=30
-          --ui_event_filters= --test_output=errors //tests:self_test
+          --ui_event_filters=+info,+error,+warning --test_output=errors //tests:self_test
       - name: Cache cleanup
         if: always()
         shell: bash
@@ -153,33 +153,31 @@ jobs:
             ${{ runner.os }}-bazel-buildpkg-
             ${{ runner.os }}-bazel-test-
       - name: Analyze Linux producer
-        if: ${{ inputs.portable_product == 'linux-amd64' && inputs.product_analysis_only }}
+        if: ${{ startsWith(inputs.portable_product, 'linux-') && inputs.product_analysis_only }}
         run: >
           bazel aquery --config=gnu --config=ci --config=release
-          --platforms=//:linux_x86_64
-          --extra_toolchains=@musl_toolchains_hub//:all --host_cxxopt=-std=c++17
+          --platforms=//:linux_${{ inputs.portable_product == 'linux-arm64' && 'aarch64' || 'x86_64' }}
           --output=text 'inputs(".*upb_generator/minitable/names.cc", deps(//:copy_zip))'
           > producer-actions.txt
       - name: Analyze macOS producer
         if: ${{ inputs.portable_product == 'macos' && inputs.product_analysis_only }}
         run: >
-          bazel aquery --config=gnu --config=ci --config=release
-          --platforms=//:apple-darwin-aarch64 --macos_minimum_os=15.5
+          bazel aquery --config=macos-release --config=ci --config=release
+          --platforms=//:apple-darwin-aarch64
           --output=text 'mnemonic("CppCompile", deps(//bcc:bazel-compile-commands-universal, 1))'
           > producer-actions.txt
       - name: Build Linux release product
-        if: ${{ inputs.portable_product == 'linux-amd64' && !inputs.product_analysis_only }}
+        if: ${{ startsWith(inputs.portable_product, 'linux-') && !inputs.product_analysis_only }}
         run: >
           bazel run --config=gnu --config=ci --config=release
-          --disk_cache=~/.cache/bazel_build_cache --platforms=//:linux_x86_64
-          --extra_toolchains=@musl_toolchains_hub//:all --host_cxxopt=-std=c++17
-          //:copy_zip -- approved-324-linux-amd64.zip
+          --disk_cache=~/.cache/bazel_build_cache --platforms=//:linux_${{ inputs.portable_product == 'linux-arm64' && 'aarch64' || 'x86_64' }}
+          //:copy_zip -- approved-324-${{ inputs.portable_product }}.zip
       - name: Build macOS release product
         if: ${{ inputs.portable_product == 'macos' && !inputs.product_analysis_only }}
         run: >
-          bazel run --config=gnu --config=ci --config=release
+          bazel run --config=macos-release --config=ci --config=release
           --disk_cache=~/.cache/bazel_build_cache
-          --platforms=//:apple-darwin-aarch64 --macos_minimum_os=15.5
+          --platforms=//:apple-darwin-aarch64
           //:copy_zip -- approved-324-macos15.5-universal.zip
       - name: Verify source preserved
         if: always()

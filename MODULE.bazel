@@ -31,9 +31,8 @@ llvm_toolchain.target(arch = "x86_64", os = "linux")
 llvm_toolchain.target(arch = "aarch64", os = "linux")
 llvm_toolchain.target(arch = "x86_64", os = "macos")
 llvm_toolchain.target(arch = "aarch64", os = "macos")
-# CI-only name for unchanged workflow argument; imports LLVM toolchains only.
-use_repo(llvm_toolchain, musl_toolchains_hub = "llvm_toolchains")
-register_toolchains("@musl_toolchains_hub//:all", dev_dependency = True)
+use_repo(llvm_toolchain, "llvm_toolchains")
+register_toolchains("@llvm_toolchains//:all", dev_dependency = True)
 
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
