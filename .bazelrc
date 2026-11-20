@@ -41,3 +41,7 @@ test --test_env=HOME
 
 # allow workspace specific user settings
 try-import %workspace%/user.bazelrc
+
+# CI-only select the proposed named configuration through the standard RC.
+common --announce_rc
+build:ci --config=linux-release
