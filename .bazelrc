@@ -12,6 +12,7 @@ build --enable_runfiles
 
 build:cl --cxxopt=/std:c++17
 build:gnu --cxxopt=-std=c++17
+build:gnu --host_cxxopt=-std=c++17
 
 # Disable Boost's MSVC auto-link pragma; Bazel handles linking explicitly.
 build:cl --cxxopt=-DBOOST_ALL_NO_LIB
@@ -25,6 +26,9 @@ build:gnu --copt=-Wall
 build:gnu --copt=-Wextra
 
 build:release --compilation_mode=opt
+
+build:macos-release --config=gnu
+build:macos-release --macos_minimum_os=15.5
 
 build:ci --show_timestamps
 build:ci --curses=no

@@ -99,7 +99,7 @@ jobs:
           - build: macos-universal
             os: macos-latest
             platform: "//:apple-darwin-aarch64"
-            config: gnu
+            config: macos-release
             suffix: macos_universal
             type: zip
           - build: windows-amd64
