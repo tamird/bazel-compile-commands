@@ -26,6 +26,13 @@ build:gnu --copt=-Wextra
 
 build:release --compilation_mode=opt
 
+build:linux-release --config=gnu
+build:linux-release --extra_toolchains=@musl_toolchains_hub//:all
+build:linux-release --host_cxxopt=-std=c++17
+
+build:macos-release --config=gnu
+build:macos-release --macos_minimum_os=15.5
+
 build:ci --show_timestamps
 build:ci --curses=no
 
