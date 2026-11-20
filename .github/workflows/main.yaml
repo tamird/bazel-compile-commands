@@ -157,7 +157,7 @@ jobs:
         run: >
           bazel aquery --config=gnu --config=ci --config=release
           --platforms=//:linux_x86_64
-          --extra_toolchains=@musl_toolchains_hub//:musl-1_2_3-platform-x86_64-linux-target-x86_64-linux-musl
+          --extra_toolchains=@musl_toolchains_hub//:all
           --output=text 'mnemonic("CppCompile", //bcc:bazel-compile-commands-binary)'
           > producer-actions.txt
       - name: Analyze macOS producer
@@ -172,7 +172,7 @@ jobs:
         run: >
           bazel run --config=gnu --config=ci --config=release
           --disk_cache=~/.cache/bazel_build_cache --platforms=//:linux_x86_64
-          --extra_toolchains=@musl_toolchains_hub//:musl-1_2_3-platform-x86_64-linux-target-x86_64-linux-musl
+          --extra_toolchains=@musl_toolchains_hub//:all
           //:copy_zip -- approved-324-linux-amd64.zip
       - name: Build macOS release product
         if: ${{ inputs.portable_product == 'macos' && !inputs.product_analysis_only }}
