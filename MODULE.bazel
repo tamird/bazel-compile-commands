@@ -74,3 +74,11 @@ http_archive(
     strip_prefix = "pandoc-3.6",
     urls = ["https://github.com/jgm/pandoc/releases/download/3.6/pandoc-3.6-windows-x86_64.zip"],
 )
+
+# CI-only immutable approved ARM product, used only to package notices.
+http_archive(
+    name = "approved_arm_product",
+    urls = ["https://raw.githubusercontent.com/tamird/bazel-compile-commands/101aa94da2846d98b1d683f8e51083a7bf90bea6/ci-products/324cf87/linux-arm64.zip"],
+    sha256 = "64a45b101f95b4274751ab6fea7a7550ddb700f06dbae1f6eb4cc607d777c795",
+    build_file_content = 'exports_files(["usr/bin/bazel-compile-commands", "usr/bin/bazel-clangd-wrapper"])',
+)

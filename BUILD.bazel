@@ -73,8 +73,8 @@ genrule(
 pkg_files(
     name = "bin_files",
     srcs = [
-        "//bcc:bazel-compile-commands-bin",
-        "//clangd-wrapper:bazel-clangd-wrapper-bin",
+        "@approved_arm_product//:usr/bin/bazel-compile-commands",
+        "@approved_arm_product//:usr/bin/bazel-clangd-wrapper",
     ],
     attributes = pkg_attributes(mode = "0755"),
     prefix = "bin",
