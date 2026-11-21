@@ -1,5 +1,5 @@
 {
-  "purpose": "Temporary exact LLVM producer/caller qualification only; not a supplier release or permanent fork dependency. Producer proposal is unpublished and pending human review.",
+  "purpose": "Temporary exact LLVM producer/caller qualification only; not a supplier release or permanent fork dependency. Fork source447 is available for review; upstream producer PR approval is pending.",
   "binary_source": "324cf87d3065afb993520a4104720ef7c7647b0b",
   "producer_proposal": "44774d5c6b106d09460c5bb85ac64506a712c35b",
   "toolchain_module": "llvm0.8.26",
@@ -40,7 +40,7 @@
       "caller_gate": {
         "run": 44838206270,
         "source": "72d6ac4bcd33fc30b0a6101bcb25d18e522d7974",
-        "result": "377sources analyzed, clang-tidy passed; freshdatabase5595entries/5013uniquefiles",
+        "result": "377 sources analyzed; clang-tidy passed; fresh database 5,595 entries / 5,013 unique files",
         "scope": "Unchanged public scripts, private RBE/toolchain/configuration profile; not whole minimalpublicconfiguration proof"
       }
     },
@@ -69,7 +69,17 @@
           "DT_NEEDED": []
         }
       },
-      "notices": "all six notices match exact proposal source"
+      "notices": "all six notices match exact proposal source",
+      "runtime_gate": {
+        "run": 44839719081,
+        "result": "Native ARM startup passed on Ubuntu22.04/glibc2.35 and Debian12/glibc2.36"
+      },
+      "caller_gate": {
+        "run": 44840194945,
+        "source": "aab124cd5355fac159f708e0ea21d8fabcd8869b",
+        "result": "Actual devcontainer Go tool, fresh database generation and input preparation passed; 5,827 database entries / 5,025 unique files",
+        "scope": "Unchanged public scripts with private RBE/toolchain/configuration profile; not whole public minimal configuration proof"
+      }
     },
     "macos-universal.zip": {
       "run": 44832647347,
@@ -184,12 +194,13 @@
   "owning_tests": {
     "linux": {
       "run": 44834589893,
-      "result": "Executed3outof3 existing Bazel test targets passed; normal registered LLVM without CLItoolchain override"
+      "result": "Executed 3 of 3 existing Bazel test targets; all passed with normal registered LLVM"
     },
     "windows": {
       "run": 44832909319,
-      "result": "nativeMSVC owning check passed; XML1case0failures"
+      "result": "Native MSVC owning check passed; XML: 1 case, 0 failures, 0 errors"
     },
     "style": 44834589893
-  }
+  },
+  "source_review_url": "https://github.com/tamird/bazel-compile-commands/compare/324cf87d3065afb993520a4104720ef7c7647b0b...44774d5c6b106d09460c5bb85ac64506a712c35b"
 }
