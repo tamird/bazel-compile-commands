@@ -20,7 +20,7 @@ on:
       portable_product:
         description: Existing release product to qualify
         type: choice
-        options: [none, linux-amd64, linux-arm64, macos]
+        options: [none, linux-amd64, linux-arm64, macos, noble-amd64]
         default: none
       product_analysis_only:
         description: Verify producer actions before building
@@ -179,6 +179,27 @@ jobs:
           --disk_cache=~/.cache/bazel_build_cache
           --platforms=//:apple-darwin-aarch64
           //:copy_zip -- approved-324-macos15.5-universal.zip
+      - name: Build Noble release package
+        if: ${{ inputs.portable_product == 'noble-amd64' }}
+        run: >
+          bazel run --config=gnu --config=ci --config=release
+          --disk_cache=~/.cache/bazel_build_cache --platforms=//:linux_x86_64
+          //:copy_deb -- approved-324-noble-amd64.deb
+      - name: Inspect Noble release package
+        if: ${{ inputs.portable_product == 'noble-amd64' }}
+        run: |
+          dpkg-deb --info approved-324-noble-amd64.deb
+          dpkg-deb --contents approved-324-noble-amd64.deb
+      - name: Install Noble release package
+        if: ${{ inputs.portable_product == 'noble-amd64' }}
+        run: sudo dpkg --install approved-324-noble-amd64.deb
+      - name: Create compile-commands.json using installed package
+        if: ${{ inputs.portable_product == 'noble-amd64' }}
+        run: /usr/bin/bazel-compile-commands -v //...
+        working-directory: ./tests/project
+      - name: Check compile-commands.json
+        if: ${{ inputs.portable_product == 'noble-amd64' }}
+        run: tests/project/check-compile-commands-json.py -p ./tests/project
       - name: Verify source preserved
         if: always()
         run: |
@@ -199,4 +220,5 @@ jobs:
           path: |
             producer-actions.txt
             approved-324-*.zip
+            approved-324-*.deb
           if-no-files-found: warn
